@@ -1,6 +1,7 @@
 from typing import Union
 import pickle
 from fastapi import FastAPI
+import datetime
 
 app = FastAPI()
 
@@ -10,6 +11,11 @@ csv_file_path = "/code/data/food.csv"
 @app.get("/")
 def read_root():
     return {"Hello": "n02"}
+
+def get_path():
+    file_dir = __file__
+    dir = os.path.dirname(file_dir)
+    return dir
 
 if not os.path.exists(csv_file_path):
     with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
