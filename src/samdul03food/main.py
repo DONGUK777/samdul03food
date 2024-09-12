@@ -11,6 +11,11 @@ csv_file_path = "/code/data/food.csv"
 def read_root():
     return {"Hello": "n02"}
 
+if not os.path.exists(csv_file_path):
+    with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(["food", "time"])  # 헤더 추가
+
 @app.get("/food")
 def food(name: str):
     # 현재 시간을 저장
