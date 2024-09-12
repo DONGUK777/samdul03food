@@ -8,6 +8,11 @@ app = FastAPI()
 
 # CSV 파일이 저장될 경로
 csv_file_path = "/code/data/food.csv"
+csv_dir_path = os.path.dirname(csv_file_path)
+
+# 디렉터리가 없으면 생성
+if not os.path.exists(csv_dir_path):
+    os.makedirs(csv_dir_path)
 
 # 서버가 시작될 때 헤더가 없는 파일일 경우, 헤더 추가
 if not os.path.exists(csv_file_path):
@@ -27,6 +32,10 @@ def food(name: str):
     df = pd.DataFrame([[name, current_time]], columns=["food", "time"])
 
     # DataFrame을 CSV 파일에 추가
-    df.to_csv(csv_file_path, mode='a', header=False, index=False, encoding='utf-8')
+    try:
+        df.to_csv(csv_file_path, mode='a', header=False, index=False, encoding='utf-8')
+    except Exception as e:
+        print(f"Error writing to CSV: {e}")
 
     return {"food": name, "time": current_time}
+
