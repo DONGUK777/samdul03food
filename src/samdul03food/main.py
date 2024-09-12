@@ -26,6 +26,11 @@ if not os.path.exists(csv_file_path):
 def food(name: str):
     # 현재 시간을 저장
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    if not os.path.exists(csv_file_path):
+        df = pd.DataFrame(columns=["food", "time"])
+    else:
+        df = pd.read_csv(csv_file_path)
 
     # 음식 이름과 시간을 DataFrame으로 변환
     df = pd.DataFrame([[name, current_time]], columns=["food", "time"])
