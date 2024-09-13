@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List
 import pandas as pd
 from datetime import datetime
 from fastapi import FastAPI
@@ -6,13 +6,17 @@ import os
 
 app = FastAPI()
 
-# CSV 파일이 저장될 경로
-csv_file_path = "/code/data/food.csv"
-csv_dir_path = os.path.dirname(csv_file_path)
+# 현재 파일의 디렉터리 경로 얻기
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# CSV 파일 경로 설정
+csv_file_path = os.path.join(current_dir, "code", "data", "food.csv")
 
 # 디렉터리가 없으면 생성
+csv_dir_path = os.path.dirname(csv_file_path)
 if not os.path.exists(csv_dir_path):
     os.makedirs(csv_dir_path)
+    os.chmod(csv_dir_path, 0o755)
 
 # 서버가 시작될 때 헤더가 없는 파일일 경우, 헤더 추가
 if not os.path.exists(csv_file_path):
@@ -21,7 +25,7 @@ if not os.path.exists(csv_file_path):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "n02"}
+    return {"Hello": "n03"}
 
 @app.get("/food")
 def food(name: str):
