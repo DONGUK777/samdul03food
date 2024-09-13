@@ -43,7 +43,7 @@ if not os.path.exists(csv_file_path):
 def read_root():
     return {"Hello": "n03"}
 
-@app.get("/n03/food")
+@app.get("/food")
 def food(name: str):
     # 현재 시간을 저장
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
