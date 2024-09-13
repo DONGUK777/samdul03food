@@ -3,8 +3,24 @@ import pandas as pd
 from datetime import datetime
 from fastapi import FastAPI
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# 허용할 도메인 설정
+origins = [
+    "http://127.0.0.1:8899",
+    # 다른 도메인도 필요 시 추가 가능
+]
+
+# CORS 미들웨어 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # 위에서 설정한 출처만 허용
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 HTTP 메소드 허용 (GET, POST, 등)
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 # 현재 파일의 디렉터리 경로 얻기
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +43,7 @@ if not os.path.exists(csv_file_path):
 def read_root():
     return {"Hello": "n03"}
 
-@app.get("/food")
+@app.get("/n03/food")
 def food(name: str):
     # 현재 시간을 저장
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

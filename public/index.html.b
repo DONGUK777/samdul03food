@@ -18,7 +18,7 @@
             event.preventDefault(); // 폼 기본 제출 방지
 
             const foodName = document.getElementById("foodName").value;
-            const url = `http://127.0.0.1:8877/n03/food?name=${encodeURIComponent(foodName)}`;
+            const url = `http://ec2-43-203-204-195.ap-northeast-2.compute.amazonaws.com/n03/food?name=${encodeURIComponent(foodName)}`;
 
             fetch(url, {
                 method: 'GET',
@@ -28,10 +28,10 @@
             });
         });
     </script>
-    <script type="module" >
+    <script>
 	// Import the functions you need from the SDKs you need
-	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-	import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+	import { initializeApp } from "firebase/app";
+	import { getAnalytics } from "firebase/analytics";
 	// TODO: Add SDKs for Firebase products that you want to use
 	// https://firebase.google.com/docs/web/setup#available-libraries
 
