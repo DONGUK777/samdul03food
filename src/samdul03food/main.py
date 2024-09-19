@@ -10,8 +10,7 @@ app = FastAPI()
 # 허용할 도메인 설정
 origins = [
     "http://localhost:8899",
-    "http://127.0.0.1:8899",
-    "http://samdul03food-83d92.web.app",
+    "https://samdul03food-83d92.web.app",
     "http://127.0.0.1:8877",
     # 다른 도메인도 필요 시 추가 가능
 ]
@@ -59,6 +58,24 @@ def food(name: str):
         df.to_csv(csv_file_path, mode='a', header=False, index=False, encoding='utf-8')
     except Exception as e:
         print(f"Error writing to CSV: {e}")
+    
+    import pymysql.cursors
+    
+    connection = pymysql.connect(host = os.getenv("DB_IP", "localhost"),
+                     user = 'food',
+                     password = '1234',
+                     database = 'fooddb',
+                     port = int(os.getenv("MY_PORT", 13306)),
+                     charset = 'utf8',
+                     cursorclass=pymysql.cursors.DictCursor)
+    
+    
+    sql = "INSERT INTO `foodhistory`(username, foodname, dt) VALUES (%s, %s, %s)"
+
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql,("n03", name, current_time))
+        connection.commit()
 
     return {"food": name, "time": current_time}
 
