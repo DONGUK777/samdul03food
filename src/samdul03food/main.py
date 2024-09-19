@@ -2,7 +2,6 @@ from typing import Union
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import pytz
-from PIL import Image
 import uuid
 import os
 import csv
